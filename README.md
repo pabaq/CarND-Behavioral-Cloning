@@ -4,7 +4,7 @@ Cloning human driving behaviour with a CNN implemented in Keras.
 
 The goal of this project is to teach a Convolutional Neural Network to imitate human driving behaviour 
 solely by providing the cars front camera images and the corresponding steering commands. The network
-shall learn to predict the correct steerings when being fed unseen road images. 
+shall learn to predict the correct steering when being fed unseen road images. 
 
 The approach is comparable to Nvidias [End-to-End Deep Learning for Self-Driving Cars][Nvidia2016] and 
 we will therefore adopt their CNN for this project. You can find their paper in the References at the end.
@@ -15,7 +15,7 @@ to help the network generalize and recover from adverse positions.
 The complete code of this project can be found in the following modules:
 
 - ``model.py``: Implementation of Nvidias Network with Keras
-- ``utilities.py``: Helper functions for data loading and visualization and defintion of the generator used to 
+- ``utilities.py``: Helper functions for data loading and visualization and definition of the generator used to 
 feed the network with the training and validation batches.
 - ``augmenation.py``: Augmentation and preprocessing functions used to extend and preprocess the collected 
 data before being fed into the network.  
@@ -35,7 +35,7 @@ and the following command has to be typed into the console ``python drive.py mod
 
 Nvidias CNN takes as input an image of shape (66, 200) in YUV color space. A normalization layer is 
 followed by 5 convolutional layers, of which the first three have a ``5x5`` kernel with a ``2x2`` stride 
-and the last two a non-strided ``3x3`` kernel. The ouput of the fifth convolutional layer is flattened and
+and the last two a non-strided ``3x3`` kernel. The output of the fifth convolutional layer is flattened and
 followed by three fully-connected layers of the shown sizes. The output of the network is a single node
 which will hold the steering value to be learned by regression.
 
@@ -96,7 +96,7 @@ to train the network in a way to master both tracks. We collect the following da
 - 1 lap of counter-clockwise driving
 - 1 lap of recovery driving
 
-In the recovery lap, the car is sited in a poor postions several times and the situation is subsequently 
+In the recovery lap, the car is sited in a poor positions several times and the situation is subsequently 
 recovered by driving the car back to the lane center. During the driving, the steering angle is recorded 
 and the three cameras in the front of the car capture images of the scene.
 
@@ -106,7 +106,7 @@ and the three cameras in the front of the car capture images of the scene.
 
 Not only that the side cameras can be used to extend the data by a factor of 3, they also provide important 
 information of a possible car shift from the center of the lane. By treating the scene captured by a 
-side camera as being viewed from the center of the car an artifical shift can be created. If the measured 
+side camera as being viewed from the center of the car an artificial shift can be created. If the measured 
 steering is then adjusted in a way that it would steer the car back to the lane center, data can be generated 
 that may help the car to recover from poor situations. 
 
@@ -116,14 +116,14 @@ the images are drawn randomly from all three cameras with equal probability. The
 If an image of a lateral camera is drawn the steering label is adjusted by a value of 0.2 (left camera +0.2, 
 right camera -0.2)  
 
-| using only the center camera | using all cameras with equal probility |  	
+| using only the center camera | using all cameras with equal probability |  	
 | ------------------ | --------------- |  	
 | ![][lake_center]   | ![][lake_all]   |
 | ![][jungle_center] | ![][jungle_all] |
 
 The following statements can be drawn:
 
-- The lake track has a slight left shift. However, by having added a counter-clokwise lap this is already somewhat 
+- The lake track has a slight left shift. However, by having added a counter-clockwise lap this is already somewhat 
 eased.
 - When using only the center camera, the major part of the steering values are small for the lake track. That is, 
 there are large portions of straight stretches on the track. This can lead to problems navigating the car in the 
@@ -131,7 +131,7 @@ curves, as the network is mainly taught to drive straight.
 - By randomly drawing samples of all three cameras (and adjusting the steering for the lateral ones) this bias can
 be reduced by stretching the distribution.
 - The jungle track is longer and therefore delivers more data.
-- Furthermore it has much more curves and requires some aggresive steering. It can already be seen, that if the network
+- Furthermore it has much more curves and requires some aggressive steering. It can already be seen, that if the network
  would be trained just with the lake track data, it would be hard to master the jungle track, since the lake track
  misses the sharp curves to learn from.
  
@@ -339,7 +339,7 @@ training or validation. No need to load the complete data into the memory.
 - Whereas the validation is only performed on the unaugmented center camera image. It may also be preprocessed, 
 depending on the investigations pipeline.
 
-Some of the investigations peformed on the way to teach the network to autonomously drive the car around both 
+Some of the investigations performed on the way to teach the network to autonomously drive the car around both 
 tracks are shown in the table below. The complete table can be found in the ``models`` folder.
 
 ![][investigations]
@@ -354,8 +354,8 @@ training data on that track.
 - V10: However, on the jungle track, using only the center camera and augmentation is not sufficient.
 - V11: It is necessary to preprocess the data. This lets the network focus onto the road, and reduces the 
 distraction by the surroundings.
-- V13: Training the network with the parameters that were succesful on the jungle track but now using the 
-data of both tracks, sufficies to master the lake track. However, since the lake track is less curvy, 
+- V13: Training the network with the parameters that were successful on the jungle track but now using the 
+data of both tracks, suffices to master the lake track. However, since the lake track is less curvy, 
 the network "loses" some of its aggressive steering capabilities learned on the jungle track.
 - V14: Using all three cameras with the same probability, increases the steering variation and improves 
 the networks driving. However it is still not sufficient to master the sharp curves of the jungle track.

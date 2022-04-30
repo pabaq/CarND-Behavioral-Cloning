@@ -425,19 +425,19 @@ I guess, it would beat me in a competition. :)
 Steers a Car, 2017
 
 
-[cnn]: ./images/NvidiaCNN.png "Nvidias CNN"
-[simulator]: ./images/Simulator.png "Simulator"
-[left]: ./images/left.jpg "left camera"
-[center]: ./images/center.jpg "center camera"
-[right]: ./images/right.jpg "right camera"
-[lake_center]: ./images/histogram_lake_center.png "Histogram Lake, center camera"
-[lake_all]: ./images/histogram_lake_all.png "Histogram Lake, all cameras"
-[jungle_center]: ./images/histogram_jungle_center.png "Histogram Jungle, center camera"
-[jungle_all]: ./images/histogram_jungle_all.png "Histogram Jungle, all cameras"
-[augmentation]: ./images/augmentation.png "Augmentation and Crop"
-[investigations]: ./images/investigations.png "Investigation pipelines"
-[lake_v16]: ./videos/lake_V16.gif "Autonomous Lake Complition"
-[jungle_v16]: ./videos/jungle_V16.gif "Autonomous Jungle Complition"
+[cnn]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/NvidiaCNN.png "Nvidias CNN"
+[simulator]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/Simulator.png "Simulator"
+[left]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/left.jpg "left camera"
+[center]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/center.jpg "center camera"
+[right]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/right.jpg "right camera"
+[lake_center]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/histogram_lake_center.png "Histogram Lake, center camera"
+[lake_all]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/histogram_lake_all.png "Histogram Lake, all cameras"
+[jungle_center]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/histogram_jungle_center.png "Histogram Jungle, center camera"
+[jungle_all]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/histogram_jungle_all.png "Histogram Jungle, all cameras"
+[augmentation]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/augmentation.png "Augmentation and Crop"
+[investigations]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/investigations.png "Investigation pipelines"
+[lake_v16]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/videos/lake_V16.gif "Autonomous Lake Complition"
+[jungle_v16]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/videos/jungle_V16.gif "Autonomous Jungle Complition"
 
 [model]: https://github.com/pabaq/CarND-Behavioral-Cloning/blob/master/model.py
 [utilities]: https://github.com/pabaq/CarND-Behavioral-Cloning/blob/master/utilities.py

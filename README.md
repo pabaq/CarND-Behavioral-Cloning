@@ -2,58 +2,58 @@ This project is part of Udacity's [Self-Driving-Car Nanodegree][Course]. The pro
 resources and build instructions can be found [here][Project], the required 
 simulator [here][UdacitySimulator] (Term 1).
 
-## Cloning human driving behaviour with a CNN
+## End-to-end deep learning
 
-The goal of this project is to teach a Convolutional Neural Network to imitate human driving
-behaviour solely by providing the cars front camera images and the corresponding steering 
-commands. The network shall learn to predict the correct steering when being fed unseen road
+The goal of this project is to teach a Convolutional Neural Network to mimic human driving
+behaviour by providing only the car's front camera images and the corresponding steering 
+commands. The network will learn to predict the correct steering, when fed with unseen road
 images. 
 
 The approach is comparable to Nvidias [End-to-End Deep Learning for Self-Driving Cars][Nvidia2016] 
 and we will therefore adopt their CNN for this project. You can find their papers in the 
-[References](#references) in the end. Instead of using real world data we will collect the training data
-by driving some laps in Udacitys [Self-Driving Car Simulator][UdacitySimulator]. Additionally,
+[References](#references) in the end. Instead of using real-world data we will collect the training data
+by driving a few laps in Udacity's [Self-Driving Car Simulator][UdacitySimulator]. Additionally,
 we will augment the collected data to help the network generalize and recover from adverse 
 positions.
 
 The complete code of this project can be found in the following modules:
 
 - [``model.py``][model]: Implementation of Nvidia's network with Keras
-- [``utilities.py``][utilities]: Helper functions for the loading and visualization of the 
-  data. Furthermore, definition of the generator used to feed the network with the training
+- [``utilities.py``][utilities]: Utilities for the loading and visualization of the data. 
+  Furthermore, definition of the generator to feed the network with the training
   and validation batches.
 - [``augmenation.py``][augmentation]: Augmentation and preprocessing functions used to extend
-  and preprocess the collected data before being fed into the network.
-- [``Behavioural_Cloning.py``][main]: Setting of all the relevant parameters and training of
-  the network.
-- [``drive.py``][drive]: Required to let a trained network drive the car in autonomous mode 
+  and preprocess the collected data before it is fed into the network.
+- [``Behavioural_Cloning.py``][main]: Setting all relevant parameters and training of the network.
+- [``drive.py``][drive]: Needed to let a trained network drive the car in autonomous mode 
   in the simulator.
 
-Several investigations and parameter variations were performed. The trained models for each 
-investigation are stored as ``*.h5`` files in the subdirectories of the [``models``][models]
+Several examinations and parameter variations were performed. The trained models for each 
+investigation are saved as ``*.h5`` files in the subdirectories of the [``models``][models]
 folder.
 
-To let a model drive the car autonomously, a track needs to be started in the simulator in 
-autonomous mode, and the following command has to be typed into the console 
+To have a model drive the car autonomously, a track must be started in the simulator in 
+autonomous mode, and the following command must be entered into the console 
 ``python drive.py model.h5``. Note, that the [``preprocessing_kwargs``][prep] in 
-[``Behavioural_Cloning.py``][main] need to be set as they were during the model's training process.
+[``Behavioural_Cloning.py``][main] must be set as they were set during the training process 
+of the model.
 
 ## Network Architecture
 ![][cnn]  
 &nbsp;
 
-Nvidias CNN takes as input an image of shape (66, 200) in YUV color space. A normalization 
+Nvidia's CNN takes an image of the shape (66, 200) in the YUV color space as input. A normalization 
 layer is followed by 5 convolutional layers, of which the first three have a ``5x5`` kernel 
 with a ``2x2`` stride and the last two a non-strided ``3x3`` kernel. The output of the fifth
-convolutional layer is flattened and followed by three fully-connected layers of the shown 
-sizes. The output of the network is a single node which will hold the steering value to be 
-learned by regression.
+convolutional layer is flattened and is followed by three fully connected layers of the specified 
+size. The output of the network is a single node containing the steering value to be learned by 
+regression.
 
-In the networks implementation for this project ``Relu`` activations are used throughout all 
-layers. After each dense layer a dropout layer is implemented. The dropout rate may be set 
-individually for each investigation. However, overfitting was not really a problem in this 
-project. The dropout layers were kept inactive for the most investigations. The network is 
-implemented with Keras as shown below.
+In the network's implementation for this project ``Relu`` activations are used throughout all 
+layers. A dropout layer is implemented after each dense layer. The dropout rate can be adjusted 
+individually for each study. However, overfitting was not really a problem in this project. 
+The dropout layers were kept inactive for most of the examinations. The network is 
+implemented using Keras as shown below.
 
 ````python
 nvidia_model = Sequential()
@@ -99,19 +99,19 @@ nvidia_model.add(Dense(units=1))
 ## Data Collection
 ![][simulator]
 
-There are two tracks available in the simulator, we will call them lake and jungle. Although 
-it is not required for the project to teach the network to drive the more challenging jungle
-track, we will try to train the network in a way to master both tracks. We collect the 
-following data on each of both tracks:
+The simulator has two tracks, which we call lake and jungle. Although the project does 
+not require us to teach the network to drive the more challenging jungle track, we will 
+attempt to train the network to master both tracks. We collect the following data on each 
+of both tracks:
 
-- 2 laps of smoothly driving at the lane center
-- 1 lap of counter-clockwise driving
+- 2 laps of steady driving at the lane center
+- 1 lap of driving counterclockwise
 - 1 lap of recovery driving
 
-In the recovery lap, the car is sited in a poor positions several times and the situation is
-subsequently recovered by driving the car back to the lane center. During the driving, the 
-steering angle is recorded and the three cameras in the front of the car capture images of
-the scene.
+In the recovery lap, the vehicle is moved several times to an adverse position and the 
+situation is subsequently recovered by driving the car back to the lane center. During the 
+drive, the steering angle is recorded and the three cameras at the front of the vehicle 
+capture images of the scene.
 
 | left camera | center camera | right camera |
 | ----------- | ------------- | ------------ |  	
@@ -119,41 +119,38 @@ the scene.
 
 Not only that the side cameras can be used to extend the data by a factor of 3, they also 
 provide important information of a possible car shift from the center of the lane. By 
-treating the scene captured by a side camera as being viewed from the center of the car an 
-artificial shift can be created. If the measured steering is then adjusted in a way that it 
-would steer the car back to the lane center, data can be generated that may help the car to 
-recover from poor situations. 
+treating the scene captured by a side camera as if it were viewed from the center of the 
+vehicle, an artificial shift can be created. If the measured steering is then adjusted in a 
+way that it would steer the car back to the lane center, data can be generated that may help 
+the car to recover from poor situations. 
 
-Let's have a look on the histograms of the collected data for both tracks. On the left side 
-only the images of the center camera are used. On the right side, the dataset is the same. 
-However, for each captured scene the images are drawn randomly from all three cameras with 
-equal probability. The number of samples stays constant. If an image of a lateral camera is 
-drawn the steering label is adjusted by a value of 0.2 (left camera +0.2, right camera -0.2)  
+Let's take a look at the histograms of the collected data for both tracks. On the left side, 
+only the images of the middle camera are used. On the right side, the dataset is the same. 
+However, for each scene captured, the images from all three cameras are drawn randomly with 
+the same probability. The number of samples remains constant. When an image from a side camera 
+is drawn, the steering label is adjusted by a value of 0.2 (left camera +0.2, right camera -0.2)
 
 | using only the center camera | using all cameras with equal probability |  	
 | ------------------ | --------------- |  	
 | ![][lake_center]   | ![][lake_all]   |
 | ![][jungle_center] | ![][jungle_all] |
 
-The following statements can be drawn:
+The following statements can be made:
 
 - The lake track has a slight left shift. However, by having added a counter-clockwise lap 
-  this is already somewhat eased.
-- When using only the center camera, the major part of the steering values are small for 
-  the lake track. That is, there are large portions of straight stretches on the track. This
-  can lead to problems navigating the car in the curves, as the network is mainly taught to 
-  drive straight.
-- By randomly drawing samples of all three cameras (and adjusting the steering for the 
-  lateral ones) this bias can be reduced by stretching the distribution.
-- The jungle track is longer and therefore delivers more data.
-- Furthermore it has much more curves and requires some aggressive steering. It can already
-  be seen, that if the network would be trained just with the lake track data, it would be 
-  hard to master the jungle track, since the lake track misses the sharp curves to learn 
-  from.
+  this is already mitigated somewhat.
+- If only the middle camera is used, most of the steering values for the lake track are small. 
+  That is, there are large portions of straight sections on the track. This can cause problems 
+  in navigating the vehicle through turns, since the network is mainly taught to drive straight.
+- By randomly sampling from all three cameras (and adjusting the steering for the side cameras),
+  this bias can be reduced by stretching the distribution.
+- The jungle track is longer and therefore provides more data.
+- It also has many more turns and requires aggressive steering. It can already be seen that it 
+  would be difficult to master the jungle track if the network were trained using only the data 
+  from the lake track, since the lake track does not contain the sharp turns to learn from.
  
-Using the three cameras is one way to augment the data set and therefore help the network to
-generalize. Let's introduce some more augmentations to further extend our generalization 
-tools.
+Using the three cameras is one way to extend the dataset to help the network generalize. We now 
+want to introduce some more augmentations to further extend our generalization tools.
 
 ## Data Augmentation
 The following augmentation methods have been implemented in [``augmentation.py``][augmentation] 
@@ -316,7 +313,7 @@ def shift(image, steering, shiftx=60, shifty=20, prob=0.5):
     return image, steering
 ```
 
-Additionally the following preprocessing functions are defined.
+In addition, the following preprocessing functions are defined.
 
 ```python
 def crop_image(image, top=60, bot=25):
@@ -358,33 +355,33 @@ def rgb2yuv(rgb_image):
 ```
 
 The cropping function is useful to let the network focus on the relevant part of the image, 
-the road. The resizing and color space conversion are used to transform the image into the 
+the road. Resizing and color space conversion are used to transform the image into the 
 format used in the Nvidia paper.
 
-Let's have a look on the augmentations and their influence on the steering on some randomly 
-chosen images.
+Let's take a look on the augmentations and their influence on the steering for some randomly 
+selected images.
 
-![][augmentation]
+![][augcrop]
 
 ## Training and Validation
 
 - The collected data is split into 80% training and 20% validation data. 
-- An Adam optimizer is used with the default learning rate of 0.001. 
-- As loss criterion for this regression task the MSE loss is chosen. It measures how well 
-  the network is predicting the steering for each provided image sample. 
+- An Adam optimizer with a default learning rate of 0.001 is used. 
+- The loss criterion chosen for this regression task is the MSE loss. It measures how well 
+  the network predicts the steering for each image sample provided. 
 - The network is trained for 10 epochs with a batch size of 128 samples. 
-- A python generator is defined which delivers the training and validation batches on the 
+- A python generator is defined to provide the training and validation batches on the 
   fly during training or validation. No need to load the complete data into the memory.
-- Each sample of the available training data is used exactly once per epoch. However it may 
+- Each sample of the available training data is used exactly once per epoch. However, it may 
   be randomly augmented.
 - The training is performed with the desired augmentation probabilities and the desired 
   preprocessing steps.
-- Whereas the validation is only performed on the unaugmented center camera image. It may 
-  also be preprocessed, depending on the investigations pipeline.
+- Validation, on the other hand, is performed using only the unaugmented center camera image. 
+  Depending on the investigation pipeline, it may also be preprocessed.
 
-Some of the investigations performed on the way to teach the network to autonomously drive 
-the car around both tracks are shown in the table below. The complete table can be found in 
-the [``models``][models] folder.
+Some of the investigations performed to teach the network to drive the car autonomously around 
+both tracks are listed in the table below. The complete table can be found in the [``models``][models] 
+folder.
 
 ![][investigations]
 &nbsp;
@@ -397,20 +394,19 @@ the [``models``][models] folder.
 - **V1**: Adding augmentation further improves the driving capabilities.
 - **V10**: However, on the jungle track, using only the center camera and augmentation is not 
   sufficient.
-- **V11**: It is necessary to preprocess the data. This lets the network focus onto the road, 
-  and reduces the distraction by the surroundings.
+- **V11**: It is necessary to preprocess the data. This allows the network to focus on the road, 
+  and reduces the distraction by the environment.
 - **V13**: Training the network with the parameters that were successful on the jungle track 
   but now using the data of both tracks, suffices to master the lake track. However, since 
   the lake track is less curvy, the network "loses" some of its aggressive steering 
-  capabilities learned on the jungle track.
-- **V14**: Using all three cameras with the same probability, increases the steering variation 
-  and improves the networks driving. However it is still not sufficient to master the sharp 
-  curves of the jungle track.
-- **V16**: By laying more weight on the lateral cameras the network regains its ability to use 
-  agressive steering if needed. Now it is able to drive around both tracks at the maximum 
-  speed.
+  capabilities that it learned on the jungle track.
+- **V14**: Using all three cameras with the same probability increases the steering variation 
+  and improves the network's driving. However, it is still not sufficient to master the sharp 
+  turns of the jungle track.
+- **V16**: By giving more weight to the lateral cameras, the network regains its ability to steer 
+  agressivly when needed. It is now capable to drive around both tracks at maximum speed.
 
-I guess, it would beat me in a competition. :)
+I guess it would beat me in a competition. :)
 
 
 | ``videos/lake_V16.mp4`` | ``videos/jungle_V16.mp4`` | 	
@@ -434,7 +430,7 @@ Steers a Car, 2017
 [lake_all]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/histogram_lake_all.png "Histogram Lake, all cameras"
 [jungle_center]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/histogram_jungle_center.png "Histogram Jungle, center camera"
 [jungle_all]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/histogram_jungle_all.png "Histogram Jungle, all cameras"
-[augmentation]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/augmentation.png "Augmentation and Crop"
+[augcrop]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/augmentation.png "Augmentation and Crop"
 [investigations]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/images/investigations.png "Investigation pipelines"
 [lake_v16]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/videos/lake_V16.gif "Autonomous Lake Complition"
 [jungle_v16]: https://github.com/pabaq/CarND-Behavioral-Cloning/raw/master/videos/jungle_V16.gif "Autonomous Jungle Complition"
